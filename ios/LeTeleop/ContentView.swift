@@ -107,7 +107,7 @@ private struct HoldToMoveButton: UIViewRepresentable {
         button.titleLabel?.textAlignment = .center
         button.layer.cornerRadius = 18
         button.addTarget(context.coordinator, action: #selector(Coordinator.press), for: .touchDown)
-        button.addTarget(context.coordinator, action: #selector(Coordinator.release), for: [.touchUpInside, .touchUpOutside, .touchCancel, .touchDragExit])
+        button.addTarget(context.coordinator, action: #selector(Coordinator.endPress), for: [.touchUpInside, .touchUpOutside, .touchCancel, .touchDragExit])
         button.accessibilityHint = "Touch and hold to move the software mock. Lift your finger to hold its position."
         return button
     }
@@ -123,7 +123,7 @@ private struct HoldToMoveButton: UIViewRepresentable {
     }
 
     static func dismantleUIView(_ uiView: UIButton, coordinator: Coordinator) {
-        coordinator.release()
+        coordinator.endPress()
     }
 
     final class Coordinator: NSObject {
@@ -142,7 +142,7 @@ private struct HoldToMoveButton: UIViewRepresentable {
             // Avoid changing SwiftUI observable state during updateUIView.
             DispatchQueue.main.async { notify(false) }
         }
-        @objc func release() {
+        @objc func endPress() {
             guard pressed else { return }
             pressed = false
             onPressChanged(false)
