@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "leteleop"
+version = "0.1.0a1"
+description = "Mock-only iOS pose streaming and episodic JSON recording prototype"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0"]
+
+[project.scripts]
+leteleop = "leteleop.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["python"]
+include = ["leteleop*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

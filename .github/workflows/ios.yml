@@ -1,0 +1,17 @@
+name: iOS compile
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install project generator
+        run: brew install xcodegen
+      - name: Generate project
+        working-directory: ios
+        run: xcodegen generate
+      - name: Compile for iOS Simulator (no signing)
+        working-directory: ios
+        run: xcodebuild -project LeTeleop.xcodeproj -scheme LeTeleop -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/LeTeleop-build" CODE_SIGNING_ALLOWED=NO build
